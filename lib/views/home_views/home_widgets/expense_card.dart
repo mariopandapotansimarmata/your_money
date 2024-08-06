@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:your_money_flutter/views/assets/material_properties.dart';
 import 'package:your_money_flutter/views/assets/profile_icon.dart';
 
-class ExpenseCard extends StatelessWidget {
-  const ExpenseCard({super.key});
+class ExpenseCard extends StatefulWidget {
+  const ExpenseCard({super.key, required this.parentScrollerHeight});
+  final double parentScrollerHeight;
 
+  @override
+  State<ExpenseCard> createState() => _ExpenseCardState();
+}
+
+class _ExpenseCardState extends State<ExpenseCard> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double ratio = widget.parentScrollerHeight / 400;
 
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -19,52 +26,92 @@ class ExpenseCard extends StatelessWidget {
             // border: Border.all(color: Colors.black),
             color: MaterialProperties.primaryBlueColor,
             borderRadius: BorderRadius.circular(24)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween, (ratio - 0.25) / (1 - 0.25) * 100
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Hello, Mario Pandapotan S",
-                  style: TextStyle(
-                      fontSize: 16, color: MaterialProperties.whiteTextColor),
+            Positioned(
+              top: 10,
+              // right: (ratio - 0.25) / (0.25) * 100,
+              child: Text(
+                "Hello, ",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: MaterialProperties.whiteTextColor
+                      .withOpacity(((ratio - 0.25) / (1 - 0.25))),
                 ),
-                const ProfileIcon()
-              ],
+              ),
             ),
-            Column(
-              children: [
-                Text(
-                  "Total Expense",
-                  style: TextStyle(
-                      fontSize: 25, color: MaterialProperties.whiteTextColor),
+            Positioned(
+              top: 10,
+              right: 55 + (ratio - 0.25) / (0.25) * 35,
+              child: Text(
+                "Mario Pandapotan S",
+                style: TextStyle(
+                    fontSize: 16, color: MaterialProperties.whiteTextColor),
+              ),
+            ),
+            const Positioned(right: 0, child: ProfileIcon()),
+            // Text("$screenWidth"),
+
+            Positioned(
+              left: (ratio) * 25,
+              top: ratio * (screenHeight * 0.12),
+              child: Container(
+                width: (screenWidth - 105),
+                // decoration:
+                //     BoxDecoration(border: Border.all(color: Colors.black)),
+                child: Center(
+                  child: Text(
+                    "Total Expanse",
+                    style: TextStyle(
+                        fontSize: 16 + (11 * ratio),
+                        color: MaterialProperties.whiteTextColor
+                            .withOpacity((((ratio - 0.25) / (1 - 0.25))))),
+                  ),
                 ),
-                Text(
+              ),
+            ),
+            Positioned.fill(
+              left: (ratio - 0.25) / (0.25) * 8,
+              top: (ratio - 0.25) / (0.25) * 50,
+              child: Container(
+                // decoration:
+                //     BoxDecoration(border: Border.all(color: Colors.black)),
+                // width: 145,
+                child: Text(
                   "Rp 850.000",
                   style: TextStyle(
-                      fontSize: 51,
-                      fontWeight: FontWeight.bold,
-                      color: MaterialProperties.whiteTextColor),
+                    fontSize: 4 + (56 * ratio),
+                    color: MaterialProperties.whiteTextColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ],
+              ),
             ),
-            Column(
-              children: [
-                Text(
-                  "Last Transaction",
-                  style: TextStyle(color: MaterialProperties.whiteTextColor),
-                ),
-                Text(
-                  "13 July 2024",
-                  style: TextStyle(color: MaterialProperties.whiteTextColor),
-                ),
-              ],
+            Positioned(
+              left: (ratio - 0.25) / (0.25) * 40,
+              top: screenWidth - 135,
+              child: Text(
+                "Last Transaction",
+                style: TextStyle(color: MaterialProperties.whiteTextColor),
+              ),
             ),
-            Icon(
-              Icons.arrow_drop_up,
-              color: MaterialProperties.whiteTextColor,
-            )
+            Positioned(
+              left: (ratio - 0.25) / (0.25) * 45,
+              top: 7 + (20 + (ratio - 0.25) / (0.25) * 90),
+              child: Column(
+                children: [
+                  Text(
+                    "13 July 2024",
+                    style: TextStyle(color: MaterialProperties.whiteTextColor),
+                  ),
+                ],
+              ),
+            ),
+            // Icon(
+            //   Icons.arrow_drop_up,
+            //   color: MaterialProperties.whiteTextColor,
+            // )
           ],
         ));
   }
