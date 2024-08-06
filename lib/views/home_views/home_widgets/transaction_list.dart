@@ -10,6 +10,7 @@ class TransactionList extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Container(
+        alignment: Alignment.bottomCenter,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
         height: screenHeight * 0.45,
@@ -18,33 +19,30 @@ class TransactionList extends StatelessWidget {
             color: MaterialProperties.whiteBackgroundColor,
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(24)),
-        child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 8),
-                height: MediaQuery.of(context).size.height * 0.42,
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Text(
-                        "Recent Transaction",
-                        style: TextStyle(
-                            color: MaterialProperties.blackTextColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      );
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.only(bottom: 12),
-                        child: TransactionCard(),
-                      );
-                    }
-                  },
-                ),
-              )
-            ]));
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            padding: const EdgeInsets.only(top: 8),
+            height: MediaQuery.of(context).size.height * 0.42,
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Text(
+                    "Recent Transaction",
+                    style: TextStyle(
+                        color: MaterialProperties.blackTextColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  );
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: TransactionCard(),
+                  );
+                }
+              },
+            ),
+          )
+        ]));
   }
 }
