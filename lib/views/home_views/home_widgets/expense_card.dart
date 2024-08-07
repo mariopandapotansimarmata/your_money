@@ -56,7 +56,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
             Positioned(
               left: (ratio) * 25,
               top: ratio * (screenHeight * 0.12),
-              child: Container(
+              child: SizedBox(
                 width: (screenWidth - 105),
                 // decoration:
                 //     BoxDecoration(border: Border.all(color: Colors.black)),
@@ -74,17 +74,12 @@ class _ExpenseCardState extends State<ExpenseCard> {
             Positioned.fill(
               left: (ratio - 0.25) / (0.25) * 8,
               top: (ratio - 0.25) / (0.25) * 50,
-              child: Container(
-                // decoration:
-                //     BoxDecoration(border: Border.all(color: Colors.black)),
-                // width: 145,
-                child: Text(
-                  "Rp 850.000",
-                  style: TextStyle(
-                    fontSize: 4 + (56 * ratio),
-                    color: MaterialProperties.whiteTextColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+              child: Text(
+                "Rp 850.000",
+                style: TextStyle(
+                  fontSize: 4 + (56 * ratio),
+                  color: MaterialProperties.whiteTextColor,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
