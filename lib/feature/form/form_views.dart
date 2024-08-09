@@ -1,7 +1,8 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:number_text_input_formatter/number_text_input_formatter.dart';
-import 'package:your_money_flutter/views/assets/material_properties.dart';
+import 'package:your_money_flutter/assets/material_properties.dart';
+import 'package:your_money_flutter/repository/transaction_repositry.dart';
 
 class AddForm extends StatefulWidget {
   const AddForm({super.key});
@@ -11,6 +12,8 @@ class AddForm extends StatefulWidget {
 }
 
 class _AddFormState extends State<AddForm> {
+  final TransactionRepositry vm = TransactionRepositry();
+
   List<String> catergoryList = [
     "Food",
     "Transportation",
@@ -259,7 +262,9 @@ class _AddFormState extends State<AddForm> {
                         backgroundColor: MaterialProperties.primaryBlueColor,
                         minimumSize: const Size.fromHeight(50),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        vm.add();
+                      },
                       child: Container(
                           child: Text(
                         "Save",

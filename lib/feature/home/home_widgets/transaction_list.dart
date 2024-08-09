@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/views/assets/material_properties.dart';
-import 'package:your_money_flutter/views/home_views/home_widgets/transaction_card.dart';
+import 'package:your_money_flutter/assets/material_properties.dart';
+import 'package:your_money_flutter/feature/home/home_widgets/transaction_card.dart';
 
 class TransactionList extends StatelessWidget {
   const TransactionList({super.key});

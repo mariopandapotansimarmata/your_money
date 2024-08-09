@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/views/home_views/home_widgets/expense_card.dart';
-import '../assets/material_properties.dart';
+import 'package:your_money_flutter/feature/home/home_widgets/expense_card.dart';
+import '../../assets/material_properties.dart';
 import 'home_widgets/transaction_card.dart';
 
 class Home extends StatefulWidget {

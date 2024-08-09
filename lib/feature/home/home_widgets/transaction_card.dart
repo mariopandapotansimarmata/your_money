@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/views/assets/ciruclar_icon.dart';
+import 'package:your_money_flutter/assets/ciruclar_icon.dart';
 
-import '../../assets/material_properties.dart';
+import '../../../assets/material_properties.dart';
 
 class TransactionCard extends StatelessWidget {
   const TransactionCard({super.key});

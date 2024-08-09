@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/views/assets/material_properties.dart';
-import 'package:your_money_flutter/views/assets/profile_icon.dart';
+import 'package:your_money_flutter/assets/material_properties.dart';
+import 'package:your_money_flutter/assets/profile_icon.dart';
 
 class ExpenseCard extends StatefulWidget {
   const ExpenseCard({super.key, required this.parentScrollerHeight});

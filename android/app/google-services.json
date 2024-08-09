@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "814128476971",
+    "project_id": "your-money-de3b4",
+    "storage_bucket": "your-money-de3b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814128476971:android:7eb4f6a1654f4c9a1d4b6e",
+        "android_client_info": {
+          "package_name": "com.example.your_money_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNNm-tExg10uH40w3C1QBv6YtIPjIMrBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
