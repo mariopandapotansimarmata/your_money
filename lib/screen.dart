@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:your_money_flutter/views/assets/material_properties.dart';
+import 'package:your_money_flutter/views/form_views/add_form.dart';
 import 'package:your_money_flutter/views/home_views/home.dart';
 
 class Screen extends StatefulWidget {
@@ -8,7 +9,6 @@ class Screen extends StatefulWidget {
     super.key,
   });
   @override
-  // ignore: library_private_types_in_public_api
   _ScreenState createState() => _ScreenState();
 }
 
@@ -122,7 +122,13 @@ class _ScreenState extends State<Screen> with SingleTickerProviderStateMixin {
                 child: FloatingActionButton(
                   shape: const CircleBorder(),
                   backgroundColor: MaterialProperties.primaryBlueColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const AddForm();
+                      },
+                    ));
+                  },
                   child: Icon(
                     Icons.add,
                     color: MaterialProperties.whiteTextColor,
