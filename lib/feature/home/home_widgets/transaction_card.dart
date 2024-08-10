@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/ciruclar_icon.dart';
-
+import 'package:your_money_flutter/models/transaction_model.dart';
+import 'package:intl/intl.dart';
 import '../../../assets/material_properties.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard({super.key});
+  const TransactionCard({super.key, required this.transaction});
+  final TransactionModel transaction;
 
   @override
   Widget build(BuildContext context) {
+    String formattedDateTime =
+        DateFormat('dd/MM/yyyy HH:mm').format(transaction.dateTime!);
     // final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Container(
@@ -27,19 +31,20 @@ class TransactionCard extends StatelessWidget {
                 icon: Icons.food_bank,
                 color: MaterialProperties.primaryBlueColor,
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Makan Malam", style: TextStyle(fontSize: 16)),
-                  Text("13/06/ 2024", style: TextStyle(fontSize: 12)),
+                  Text("${transaction.notes}",
+                      style: const TextStyle(fontSize: 16)),
+                  Text(formattedDateTime, style: const TextStyle(fontSize: 12)),
                 ],
               ),
             ],
           ),
-          const Text(
-            "RP 25.000",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Text(
+            "Rp ${transaction.amount}",
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           )
         ],
       ),

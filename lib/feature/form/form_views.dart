@@ -2,6 +2,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
+import 'package:your_money_flutter/models/transaction_model.dart';
 import 'package:your_money_flutter/repository/transaction_repositry.dart';
 
 class AddForm extends StatefulWidget {
@@ -28,19 +29,26 @@ class _AddFormState extends State<AddForm> {
     "Entertainment": const Icon(Icons.shopify),
     "Others": const Icon(Icons.help_outline_sharp),
   };
-  TextEditingController textarea = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController dateTimeController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
+
   String? selectedCategory;
 
   @override
   void dispose() {
-    textarea.dispose();
+    amountController.dispose();
+    categoryController.dispose();
+    dateTimeController.dispose();
+    notesController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     String dropdownValue = catergoryList.first;
-
+    dateTimeController.text = DateTime.now().toString();
     return Scaffold(
         backgroundColor: MaterialProperties.backgroundColor,
         appBar: AppBar(
@@ -64,6 +72,7 @@ class _AddFormState extends State<AddForm> {
                         children: [
                           const HeaderForm(headerName: "Amount"),
                           TextField(
+                            controller: amountController,
                             cursorColor: MaterialProperties.primaryBlueColor,
                             style: const TextStyle(fontSize: 24),
                             decoration: InputDecoration(
@@ -163,7 +172,8 @@ class _AddFormState extends State<AddForm> {
                             }).toList(),
                             onChanged: (value) {
                               setState(() {
-                                selectedCategory = value;
+                                categoryController.text = value!;
+                                print(categoryController.text);
                               });
                             },
                           )
@@ -179,6 +189,7 @@ class _AddFormState extends State<AddForm> {
                                   child: const Icon(Icons.date_range)),
                               Expanded(
                                 child: DateTimePicker(
+                                  // controller: dateTimeController,
                                   decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -206,18 +217,18 @@ class _AddFormState extends State<AddForm> {
                                   dateLabelText: 'Date',
                                   timeLabelText: "Hour",
                                   selectableDayPredicate: (date) {
-                                    if (date.weekday == 6 ||
-                                        date.weekday == 7) {
-                                      return false;
-                                    }
                                     return true;
                                   },
-                                  onChanged: (val) => print(val),
+                                  onChanged: (val) {
+                                    dateTimeController.text = val;
+                                  },
                                   validator: (val) {
                                     print(val);
                                     return null;
                                   },
-                                  onSaved: (val) => print(val),
+                                  onSaved: (val) {
+                                    dateTimeController.text = val!;
+                                  },
                                 ),
                               ),
                             ],
@@ -228,7 +239,7 @@ class _AddFormState extends State<AddForm> {
                         children: [
                           const HeaderForm(headerName: "Notes"),
                           TextField(
-                            controller: textarea,
+                            controller: notesController,
                             keyboardType: TextInputType.multiline,
                             maxLines: 4,
                             decoration: InputDecoration(
@@ -263,7 +274,12 @@ class _AddFormState extends State<AddForm> {
                         minimumSize: const Size.fromHeight(50),
                       ),
                       onPressed: () {
-                        vm.add();
+                        vm.add(TransactionModel(
+                            double.parse(amountController.text
+                                .replaceAll(RegExp(','), '')),
+                            categoryController.text,
+                            DateTime.parse(dateTimeController.text),
+                            notesController.text));
                       },
                       child: Container(
                           child: Text(

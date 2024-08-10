@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/feature/home/home_widgets/expense_card.dart';
+import 'package:your_money_flutter/repository/transaction_repositry.dart';
 import '../../assets/material_properties.dart';
 import 'home_widgets/transaction_card.dart';
 
@@ -99,22 +100,40 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(top: 8),
-                        height: (screenHeight * 0.77) - _containerHeight,
-                        child: ListView.builder(
-                          controller: _isScrollable ? _scrollController : null,
-                          physics: _isScrollable
-                              ? const AlwaysScrollableScrollPhysics()
-                              : const NeverScrollableScrollPhysics(),
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return const Padding(
-                              padding: EdgeInsets.only(bottom: 12),
-                              child: TransactionCard(),
-                            );
-                          },
-                        ),
-                      ),
+                          padding: const EdgeInsets.only(top: 8),
+                          height: (screenHeight * 0.77) - _containerHeight,
+                          child: FutureBuilder(
+                            future: TransactionRepositry().readAll(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return const Text('No transactions found');
+                              } else {
+                                return ListView.builder(
+                                  controller:
+                                      _isScrollable ? _scrollController : null,
+                                  physics: _isScrollable
+                                      ? const AlwaysScrollableScrollPhysics()
+                                      : const NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: (context, index) {
+                                    var transaction = snapshot.data![index];
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 12),
+                                      child: TransactionCard(
+                                          transaction: transaction),
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                          )),
                     ],
                   ),
                 ),

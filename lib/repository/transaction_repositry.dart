@@ -4,12 +4,23 @@ import 'package:your_money_flutter/models/transaction_model.dart';
 class TransactionRepositry {
   final db = FirebaseFirestore.instance;
 
-  TransactionModel dump =
-      TransactionModel("transactionId", 23.0, "dateTime", "notes");
-
-  Future<void> add() async {
-    await db.collection("transactions").add(dump.toMap()).then(
+  Future<void> add(TransactionModel transaction) async {
+    await db.collection("transactions").add(transaction.toMap()).then(
         (DocumentReference doc) =>
             print('DocumentSnapshot added with ID: ${doc.id}'));
+  }
+
+  Future<List<TransactionModel>> readAll() async {
+    try {
+      var snapshot = await db.collection("transactions").get();
+      var result = snapshot.docs.map((data) {
+        return TransactionModel.fromSnapshot(data);
+      }).toList();
+      print("Fetched transactions: $result");
+      return result;
+    } catch (e) {
+      print("Error fetching transactions: $e");
+      return [];
+    }
   }
 }
