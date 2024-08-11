@@ -5,16 +5,17 @@ import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/models/transaction_model.dart';
 import 'package:your_money_flutter/repository/transaction_repositry.dart';
 
-class AddForm extends StatefulWidget {
-  const AddForm({super.key});
+import '../../../repository/utils/model_utils.dart';
 
+class EditForm extends StatefulWidget {
+  const EditForm({super.key, required this.transaction});
+  final TransactionModel transaction;
   @override
-  State<AddForm> createState() => _AddFormState();
+  State<EditForm> createState() => _EditFormState();
 }
 
-class _AddFormState extends State<AddForm> {
-  final TransactionRepositry vm = TransactionRepositry();
-
+class _EditFormState extends State<EditForm> {
+  TransactionRepositry vm = TransactionRepositry();
   List<String> catergoryList = [
     "Food",
     "Transportation",
@@ -22,19 +23,22 @@ class _AddFormState extends State<AddForm> {
     "Entertainment",
     "Others"
   ];
-  Map<String, Icon> catergoryIconList = {
-    "Food": const Icon(Icons.food_bank),
-    "Transportation": const Icon(Icons.emoji_transportation),
-    "Care": const Icon(Icons.health_and_safety),
-    "Entertainment": const Icon(Icons.shopify),
-    "Others": const Icon(Icons.help_outline_sharp),
-  };
+  late String documentId;
   TextEditingController amountController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController dateTimeController = TextEditingController();
   TextEditingController notesController = TextEditingController();
 
-  String? selectedCategory;
+  @override
+  void initState() {
+    documentId = widget.transaction.documentId!;
+    amountController.text =
+        ModelUtils.decimalFormatter(widget.transaction.amount!).toString();
+    categoryController.text = widget.transaction.category.toString();
+    dateTimeController.text = widget.transaction.dateTime.toString();
+    notesController.text = widget.transaction.notes.toString();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -47,14 +51,13 @@ class _AddFormState extends State<AddForm> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = catergoryList.first;
     dateTimeController.text = DateTime.now().toString();
     return Scaffold(
         backgroundColor: MaterialProperties.backgroundColor,
         appBar: AppBar(
           foregroundColor: MaterialProperties.whiteBackgroundColor,
           backgroundColor: MaterialProperties.primaryBlueColor,
-          title: const Text("Add Form"),
+          title: const Text("Edit Transaction"),
         ),
         body: SafeArea(
             child: SingleChildScrollView(
@@ -67,6 +70,7 @@ class _AddFormState extends State<AddForm> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.55,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
@@ -74,7 +78,7 @@ class _AddFormState extends State<AddForm> {
                           TextField(
                             controller: amountController,
                             cursorColor: MaterialProperties.primaryBlueColor,
-                            style: const TextStyle(fontSize: 24),
+                            style: Theme.of(context).textTheme.bodyLarge!,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -91,19 +95,22 @@ class _AddFormState extends State<AddForm> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               isDense: true,
-                              hintText: "   Enter Amount of Money",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                              ),
+                              hintText: " Enter Amount of Money",
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                               fillColor: Colors.white,
                               prefixIcon: Container(
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 10, 5, 10),
-                                  child: const Text(
+                                  child: Text(
                                     "Rp",
-                                    style: TextStyle(fontSize: 24),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   )),
                               prefixIconConstraints: const BoxConstraints(
                                   minWidth: 0, minHeight: 0),
@@ -122,60 +129,59 @@ class _AddFormState extends State<AddForm> {
                       Column(
                         children: [
                           const HeaderForm(headerName: "Category"),
-                          DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 1.5,
-                                    color: MaterialProperties
-                                        .transactionBorderColor),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 1.5,
-                                    color: MaterialProperties.primaryBlueColor),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              hintText: "   Enter Amount of Money",
-                              hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                              ),
-                              fillColor: MaterialProperties.whiteTextColor,
-                              prefixIconConstraints: const BoxConstraints(
-                                  minWidth: 0, minHeight: 0),
-                            ),
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.black),
-                            isExpanded: true,
-                            value: dropdownValue,
-                            items: catergoryList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Container(
-                                  height: 50,
-                                  alignment: Alignment.center,
-                                  color: MaterialProperties.whiteTextColor,
-                                  child: Row(
-                                    children: [
-                                      catergoryIconList[value]!,
-                                      const SizedBox(width: 15),
-                                      Text(value),
-                                    ],
-                                  ),
+                          Container(
+                            child: DropdownButtonFormField(
+                              // itemHeight: 100,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                filled: true,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1.5,
+                                      color: MaterialProperties
+                                          .transactionBorderColor),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                categoryController.text = value!;
-                                print(categoryController.text);
-                              });
-                            },
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1.5,
+                                      color:
+                                          MaterialProperties.primaryBlueColor),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                fillColor: MaterialProperties.whiteTextColor,
+                              ),
+                              style: Theme.of(context).textTheme.bodyLarge!,
+                              isExpanded: true,
+                              value: widget.transaction.category,
+                              items: catergoryList
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Container(
+                                    // height: 50,
+                                    alignment: Alignment.center,
+                                    color: MaterialProperties.whiteTextColor,
+                                    child: Row(
+                                      children: [
+                                        Icon(ModelUtils
+                                            .catergoryIconList[value]!),
+                                        const SizedBox(width: 15),
+                                        Text(value),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  categoryController.text = value!;
+                                  print(categoryController.text);
+                                });
+                              },
+                            ),
                           )
                         ],
                       ),
@@ -189,8 +195,10 @@ class _AddFormState extends State<AddForm> {
                                   child: const Icon(Icons.date_range)),
                               Expanded(
                                 child: DateTimePicker(
-                                  // controller: dateTimeController,
                                   decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 15),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 1.5,
@@ -233,6 +241,7 @@ class _AddFormState extends State<AddForm> {
                               ),
                             ],
                           ),
+                          Text("${widget.transaction.documentId}")
                         ],
                       ),
                       Column(
@@ -274,21 +283,33 @@ class _AddFormState extends State<AddForm> {
                         minimumSize: const Size.fromHeight(50),
                       ),
                       onPressed: () {
-                        vm.add(TransactionModel(
-                            double.parse(amountController.text
+                        if (amountController.text == "") {
+                          amountController.text = "0";
+                        }
+                        if (categoryController.text == "") {
+                          categoryController.text = "Food";
+                        }
+                        vm.update(TransactionModel(
+                            documentId: documentId,
+                            amount: double.parse(amountController.text
                                 .replaceAll(RegExp(','), '')),
-                            categoryController.text,
-                            DateTime.parse(dateTimeController.text),
-                            notesController.text));
+                            category: categoryController.text,
+                            dateTime: DateTime.parse(dateTimeController.text),
+                            notes: notesController.text));
+
+                        print(amountController.text);
+                        print(double.parse(
+                            amountController.text.replaceAll(RegExp(','), '')));
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       },
-                      child: Container(
-                          child: Text(
+                      child: Text(
                         "Save",
                         style: TextStyle(
                             color: MaterialProperties.whiteTextColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
-                      ))),
+                      )),
                 )
               ],
             ),
@@ -303,16 +324,19 @@ class HeaderForm extends StatelessWidget {
   final String headerName;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          headerName,
-          style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w300,
-              color: Colors.grey[500]),
-        ),
-      ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(headerName,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontWeight: FontWeight.w300, color: Colors.grey[900])),
+          const SizedBox(
+            height: 8,
+          )
+        ],
+      ),
     );
   }
 }

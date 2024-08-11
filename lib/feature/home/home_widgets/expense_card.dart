@@ -19,7 +19,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
 
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
         height: screenHeight * 0.4,
         width: screenWidth,
         decoration: BoxDecoration(
@@ -30,24 +30,24 @@ class _ExpenseCardState extends State<ExpenseCard> {
           // mainAxisAlignment: MainAxisAlignment.spaceBetween, (ratio - 0.25) / (1 - 0.25) * 100
           children: [
             Positioned(
-              top: 10,
+              top: 13,
               // right: (ratio - 0.25) / (0.25) * 100,
               child: Text(
                 "Hello, ",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: MaterialProperties.whiteTextColor
-                      .withOpacity(((ratio - 0.25) / (1 - 0.25))),
-                ),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: MaterialProperties.whiteTextColor
+                        .withOpacity(((ratio - 0.25) / (1 - 0.25)))),
               ),
             ),
             Positioned(
-              top: 10,
-              right: 55 + (ratio - 0.25) / (0.25) * 35,
+              top: 13,
+              right: 50 + (ratio - 0.25) / (0.25) * 35,
               child: Text(
                 "Mario Pandapotan S",
-                style: TextStyle(
-                    fontSize: 16, color: MaterialProperties.whiteTextColor),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: MaterialProperties.whiteTextColor),
               ),
             ),
             const Positioned(right: 0, child: ProfileIcon()),
@@ -103,10 +103,6 @@ class _ExpenseCardState extends State<ExpenseCard> {
                 ],
               ),
             ),
-            // Icon(
-            //   Icons.arrow_drop_up,
-            //   color: MaterialProperties.whiteTextColor,
-            // )
           ],
         ));
   }

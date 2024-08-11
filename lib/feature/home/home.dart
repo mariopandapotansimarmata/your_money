@@ -93,22 +93,18 @@ class _HomeState extends State<Home> {
                     children: [
                       Text(
                         "Recent Transaction",
-                        style: TextStyle(
-                          color: MaterialProperties.blackTextColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Container(
                           padding: const EdgeInsets.only(top: 8),
                           height: (screenHeight * 0.77) - _containerHeight,
-                          child: FutureBuilder(
-                            future: TransactionRepositry().readAll(),
+                          child: StreamBuilder(
+                            stream: TransactionRepositry().streamReadAll(),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              } else if (snapshot.hasError) {
+                              if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
                               } else if (!snapshot.hasData ||
                                   snapshot.data!.isEmpty) {
