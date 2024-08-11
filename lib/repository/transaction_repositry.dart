@@ -48,4 +48,8 @@ class TransactionRepositry {
       "notes": transaction.notes
     });
   }
+
+  Future<void> deleteUser(String documentId) {
+    return db.collection(transactionsField).doc(documentId).delete();
+  }
 }

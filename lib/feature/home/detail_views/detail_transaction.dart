@@ -135,6 +135,7 @@ class _DetailTransactionState extends State<DetailTransaction> {
                     height: 10,
                   ),
                   DetailPageButton(
+                      transactionId: widget.transaction.documentId,
                       text: "Delete",
                       icon: Icons.delete_outline,
                       backgroundColor: Colors.red[800]!)
