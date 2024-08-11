@@ -104,11 +104,23 @@ class _HomeState extends State<Home> {
                           child: StreamBuilder(
                             stream: TransactionRepositry().streamReadAll(),
                             builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [CircularProgressIndicator()],
+                                );
+                              }
                               if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
                               } else if (!snapshot.hasData ||
                                   snapshot.data!.isEmpty) {
-                                return const Text('No transactions found');
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text('No transactions found'),
+                                  ],
+                                );
                               } else {
                                 return ListView.builder(
                                   controller:
