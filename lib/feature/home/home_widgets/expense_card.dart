@@ -13,7 +13,7 @@ class ExpenseCard extends StatefulWidget {
 }
 
 class _ExpenseCardState extends State<ExpenseCard> {
-  HomeViewModel _homeViewModel = HomeViewModel();
+  final HomeViewModel _homeViewModel = HomeViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
               stream: _homeViewModel.streamTotalExpense(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 return Positioned.fill(
                   left: (ratio - 0.25) / (0.25) * 18,
@@ -107,7 +107,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                 stream: _homeViewModel.streamLastTransaction(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   return Positioned(
                     left: (ratio - 0.25) / (0.25) * 39,
