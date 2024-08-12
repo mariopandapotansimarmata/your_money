@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/assets/profile_icon.dart';
-import 'package:your_money_flutter/repository/chart_repository.dart';
+import 'package:your_money_flutter/feature/home/home_view_model/home_view_model.dart';
 import 'package:your_money_flutter/repository/utils/model_utils.dart';
 
 class ExpenseCard extends StatefulWidget {
@@ -13,12 +13,14 @@ class ExpenseCard extends StatefulWidget {
 }
 
 class _ExpenseCardState extends State<ExpenseCard> {
+  HomeViewModel _homeViewModel = HomeViewModel();
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double ratio = widget.parentScrollerHeight / 400;
-    ChartRepository chart = ChartRepository();
+
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -74,7 +76,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
               ),
             ),
             StreamBuilder(
-              stream: chart.readTotalExpense(),
+              stream: _homeViewModel.streamTotalExpense(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return CircularProgressIndicator();
@@ -102,7 +104,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
               ),
             ),
             StreamBuilder(
-                stream: chart.readLastTransaction(),
+                stream: _homeViewModel.streamLastTransaction(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return CircularProgressIndicator();
