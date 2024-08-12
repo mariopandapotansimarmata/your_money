@@ -27,7 +27,7 @@ class DetailPageButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(backgroundColor: backgroundColor),
             onPressed: () {
               if (transactionId != null) {
-                vm.deleteUser(transactionId!);
+                vm.delete(transactionId!);
                 Navigator.pop(context);
               } else {
                 Navigator.push(context, MaterialPageRoute(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:your_money_flutter/feature/home/home_view_model/home_view_model.dart';
 import 'package:your_money_flutter/feature/home/home_widgets/expense_card.dart';
-import 'package:your_money_flutter/repository/transaction_repositry.dart';
 import '../../assets/material_properties.dart';
 import 'home_widgets/transaction_card.dart';
 
@@ -30,7 +30,6 @@ class _HomeState extends State<Home> {
   }
 
   void _scrollListener() {
-    // print(_scrollController.offset);
     if (_scrollController.offset == 0) {
       _containerHeight = 100.1;
       setState(() {
@@ -43,6 +42,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+    HomeViewModel homeVM = HomeViewModel();
 
     return SafeArea(
       child: Column(
@@ -102,23 +102,16 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(top: 8),
                           height: (screenHeight * 0.77) - _containerHeight,
                           child: StreamBuilder(
-                            stream: TransactionRepositry().streamReadAll(),
+                            stream: homeVM.streamAllTransaction(),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [CircularProgressIndicator()],
-                                );
-                              }
                               if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
                               } else if (!snapshot.hasData ||
                                   snapshot.data!.isEmpty) {
-                                return Row(
+                                return const Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const Text('No transactions found'),
+                                    Text('No transactions found'),
                                   ],
                                 );
                               } else {

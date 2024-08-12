@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/assets/profile_icon.dart';
+import 'package:your_money_flutter/repository/chart_repository.dart';
+import 'package:your_money_flutter/repository/utils/model_utils.dart';
 
 class ExpenseCard extends StatefulWidget {
   const ExpenseCard({super.key, required this.parentScrollerHeight});
@@ -16,7 +18,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double ratio = widget.parentScrollerHeight / 400;
-
+    ChartRepository chart = ChartRepository();
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -50,7 +52,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     .copyWith(color: MaterialProperties.whiteTextColor),
               ),
             ),
-            const Positioned(right: 0, child: ProfileIcon()),
+            const Positioned(top: 2, right: 0, child: ProfileIcon()),
             // Text("$screenWidth"),
 
             Positioned(
@@ -71,17 +73,25 @@ class _ExpenseCardState extends State<ExpenseCard> {
                 ),
               ),
             ),
-            Positioned.fill(
-              left: (ratio - 0.25) / (0.25) * 8,
-              top: (ratio - 0.25) / (0.25) * 50,
-              child: Text(
-                "Rp 850.000",
-                style: TextStyle(
-                  fontSize: 4 + (56 * ratio),
-                  color: MaterialProperties.whiteTextColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            StreamBuilder(
+              stream: chart.readTotalExpense(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return CircularProgressIndicator();
+                }
+                return Positioned.fill(
+                  left: (ratio - 0.25) / (0.25) * 18,
+                  top: (ratio - 0.25) / (0.25) * 50,
+                  child: Text(
+                    "Rp ${ModelUtils.decimalFormatter(snapshot.data!)}",
+                    style: TextStyle(
+                      fontSize: 10 + (36 * ratio),
+                      color: MaterialProperties.whiteTextColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              },
             ),
             Positioned(
               left: (ratio - 0.25) / (0.25) * 40,
@@ -91,18 +101,26 @@ class _ExpenseCardState extends State<ExpenseCard> {
                 style: TextStyle(color: MaterialProperties.whiteTextColor),
               ),
             ),
-            Positioned(
-              left: (ratio - 0.25) / (0.25) * 45,
-              top: 7 + (20 + (ratio - 0.25) / (0.25) * 90),
-              child: Column(
-                children: [
-                  Text(
-                    "13 July 2024",
-                    style: TextStyle(color: MaterialProperties.whiteTextColor),
-                  ),
-                ],
-              ),
-            ),
+            StreamBuilder(
+                stream: chart.readLastTransaction(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  return Positioned(
+                    left: (ratio - 0.25) / (0.25) * 39,
+                    top: 7 + (20 + (ratio - 0.25) / (0.25) * 90),
+                    child: Column(
+                      children: [
+                        Text(
+                          "${ModelUtils.dateTimeFormatter(snapshot.data!)}",
+                          style: TextStyle(
+                              color: MaterialProperties.whiteTextColor),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
           ],
         ));
   }

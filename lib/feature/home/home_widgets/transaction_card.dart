@@ -43,35 +43,38 @@ class _TransactionCardState extends State<TransactionCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                TranscIcon(
-                  icon: ModelUtils.getIcon(widget.transaction.category!)!,
-                  color: MaterialProperties.primaryBlueColor,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Container(
-                  width: screenWidth * 0.5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${widget.transaction.notes}",
-                        style: Theme.of(context).textTheme.titleMedium,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      Text(
-                        formattedDateTime,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
+            Container(
+              alignment: Alignment.topLeft,
+              child: Row(
+                children: [
+                  TranscIcon(
+                    icon: ModelUtils.getIcon(widget.transaction.category!)!,
+                    color: MaterialProperties.primaryBlueColor,
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: screenWidth * 0.4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${widget.transaction.notes}",
+                          style: Theme.of(context).textTheme.titleMedium,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          formattedDateTime,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             Text(
                 "Rp ${ModelUtils.decimalFormatter(widget.transaction.amount!)}",

@@ -56,12 +56,12 @@ class _DetailTransactionState extends State<DetailTransaction> {
           children: [
             Container(
               padding: const EdgeInsets.all(16),
-              height: screenHeight * 0.4,
+              height: screenHeight * 0.45,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: screenHeight * 0.35,
+                    height: screenHeight * 0.4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
