@@ -31,8 +31,12 @@ class ChartRepository {
     }
   }
 
-  Stream<List<ChartData>> readChartPercentage() async* {
-    await for (var snapshot in db.collection(transactionField).snapshots()) {
+  Stream<List<ChartData>> readChartPercentage(int days) async* {
+    await for (var snapshot in db
+        .collection(transactionField)
+        .where("dateTime",
+            isGreaterThan: DateTime.now().subtract(Duration(days: days)))
+        .snapshots()) {
       double food = 0;
       double transportation = 0;
       double care = 0;

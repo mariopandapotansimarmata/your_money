@@ -5,7 +5,7 @@ import '../../repository/chart_repository.dart';
 class ChartViewModel {
   final ChartRepository _chartRepo = ChartRepository();
 
-  Stream<List<ChartData>> streamPercentage() async* {
-    yield* _chartRepo.readChartPercentage();
+  Stream<List<ChartData>> streamPercentage(int days) async* {
+    yield* _chartRepo.readChartPercentage(days);
   }
 }
