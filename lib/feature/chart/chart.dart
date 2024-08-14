@@ -53,18 +53,21 @@ class _ChartPageState extends State<ChartPage> {
             height: 10,
           ),
           Container(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
             // margin: const EdgeInsets.all(16),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                     color: MaterialProperties.transactionBorderColor)),
-            height: 480,
+            height: MediaQuery.of(context).size.height * 0.68,
             width: 400,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -150,16 +153,11 @@ class _ChartPageState extends State<ChartPage> {
                   child: StreamBuilder(
                       stream: _chartVM.streamPercentage(items[selectedValue]!),
                       builder: (context, snapshot) {
-                        print("ini adalah ${snapshot.data}");
                         if (!snapshot.hasData) {
                           return const Text("No Data");
                         }
-                        print("ini adalah ${snapshot.data!}");
                         return SfCircularChart(
                             margin: const EdgeInsets.all(0),
-                            // title: ChartTitle(
-                            //     text: "Transaction Chart",
-                            //     textStyle: Theme.of(context).textTheme.titleMedium),
                             legend: Legend(
                                 alignment: ChartAlignment.center,
                                 isResponsive: true,
@@ -184,6 +182,36 @@ class _ChartPageState extends State<ChartPage> {
                             ]);
                       }),
                 ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green[700],
+                        ),
+                        onPressed: () {
+                          _chartVM.createExcel();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.grid_on_outlined,
+                              color: MaterialProperties.whiteTextColor,
+                            ),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            Text(
+                              "Export to Excel",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: MaterialProperties.whiteTextColor),
+                            ),
+                          ],
+                        )))
               ],
             ),
           )
