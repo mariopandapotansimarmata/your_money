@@ -7,7 +7,7 @@ class Auth {
   static const String _usersPath = "users";
 
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
-  static Stream<User?> StreamIsLoggedIn() {
+  static Stream<User?> streamIsLoggedIn() {
     print("object");
     return FirebaseAuth.instance.userChanges();
   }
