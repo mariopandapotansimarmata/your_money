@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/auth/firebaseauth.dart';
 
+import '../repository/utils/overlay_utils.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -103,15 +105,20 @@ class _SignUpState extends State<SignUp> {
                 onPressed: () async {
                   if (passwordController.text ==
                       confirmPasswordController.text) {
-                    await Auth.createUser(emailController.text,
-                        passwordController.text, displayName.text);
-                    // if (result) {
-                    //   Navigator.push(context, MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return Home();
-                    //     },
-                    //   ));
-                    // }
+                    OverlayUtils.showOverlay(context, "Signin Up",
+                        action: () async {
+                      bool success = await Auth.createUser(emailController.text,
+                          passwordController.text, displayName.text);
+                      if (!success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(
+                                "Failed to create user, email might be used"),
+                          ),
+                        );
+                      }
+                    });
                   }
                 },
                 child: const Text("Sign Up"))),

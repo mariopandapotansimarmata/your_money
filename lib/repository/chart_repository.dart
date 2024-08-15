@@ -10,7 +10,7 @@ class ChartRepository {
   FirebaseFirestore db = Firebase().database;
   String transactionField = "transactions";
   String usersField = "users";
-  Stream<User?> currentUserStream = Auth.StreamIsLoggedIn();
+  Stream<User?> currentUserStream = Auth.streamIsLoggedIn();
   User? currentUid = Auth.isLoggedIn();
 
   Stream<double> readTotalExpense() async* {

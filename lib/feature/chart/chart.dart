@@ -13,7 +13,7 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPageState extends State<ChartPage> {
-  ChartViewModel _chartVM = ChartViewModel();
+  final ChartViewModel _chartVM = ChartViewModel();
   final Map<String, int> items = {
     'Week': 7,
     'Month': 30,
@@ -156,6 +156,10 @@ class _ChartPageState extends State<ChartPage> {
                         if (!snapshot.hasData) {
                           return const Text("No Data");
                         }
+
+                        final total = snapshot.data!
+                            .fold<double>(0, (sum, item) => sum + item.y);
+
                         return SfCircularChart(
                             margin: const EdgeInsets.all(0),
                             legend: Legend(
@@ -166,13 +170,12 @@ class _ChartPageState extends State<ChartPage> {
                                 isVisible: true,
                                 title: LegendTitle(text: "Transaction Chart")),
                             series: <CircularSeries>[
-                              // Renders doughnut chart
                               DoughnutSeries<ChartData, String>(
                                   dataLabelSettings:
                                       const DataLabelSettings(isVisible: true),
                                   dataLabelMapper: (datum, index) {
-                                    return (snapshot.data![index].y / 100)
-                                        .toString();
+                                    final percentage = (datum.y / total) * 100;
+                                    return '${percentage.toStringAsFixed(1)}%';
                                   },
                                   dataSource: snapshot.data!,
                                   pointColorMapper: (ChartData data, _) =>

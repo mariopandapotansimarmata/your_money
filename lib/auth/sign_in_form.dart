@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/auth/firebaseauth.dart';
-import 'package:your_money_flutter/feature/home/home.dart';
+import 'package:your_money_flutter/repository/utils/overlay_utils.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -58,16 +58,28 @@ class _SignInState extends State<SignIn> {
           ),
         ),
         Container(
-            margin: EdgeInsets.symmetric(vertical: 25),
-            constraints: BoxConstraints(maxWidth: 500),
+            margin: const EdgeInsets.symmetric(vertical: 25),
+            constraints: const BoxConstraints(maxWidth: 500),
             height: 40,
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
-                onPressed: () {
-                  Auth.logInByEmailPassword(
-                      emailController.text, passwordController.text);
+                onPressed: () async {
+                  OverlayUtils.showOverlay(context, "Signing In",
+                      action: () async {
+                    String? result = await Auth.logInByEmailPassword(
+                        emailController.text, passwordController.text);
+                    print(result);
+                    if (result != "success") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(result!),
+                        ),
+                      );
+                    }
+                  });
                 },
-                child: Text("Sign In"))),
+                child: const Text("Sign In"))),
       ],
     );
   }

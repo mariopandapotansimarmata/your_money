@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
                 cardColor: MaterialProperties.whiteTextColor)),
         title: 'Flutter Demo',
         home: StreamBuilder(
-            stream: Auth.StreamIsLoggedIn(),
+            stream: Auth.streamIsLoggedIn(),
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return const Screen();

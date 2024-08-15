@@ -7,7 +7,7 @@ class TransactionRepositry {
   String transactionsField = "transactions";
   String usersField = "users";
   FirebaseFirestore db = FirebaseFirestore.instance;
-  Stream<User?> currentUserStream = Auth.StreamIsLoggedIn();
+  Stream<User?> currentUserStream = Auth.streamIsLoggedIn();
 
   Future<void> add(TransactionModel transaction) async {
     User? currentUser = await currentUserStream.first;

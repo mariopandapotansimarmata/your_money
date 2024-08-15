@@ -17,7 +17,7 @@ class Screen extends StatefulWidget {
 class _ScreenState extends State<Screen> with SingleTickerProviderStateMixin {
   late int currentPage;
   late TabController tabController;
-  List<Widget> listPages = [const Home(), ChartPage()];
+  List<Widget> listPages = [const Home(), const ChartPage()];
 
   @override
   void initState() {

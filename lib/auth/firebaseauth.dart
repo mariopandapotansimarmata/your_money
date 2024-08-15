@@ -47,7 +47,7 @@ class Auth {
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       } else {
-        print('Error: $e');
+        print('Error: ${e.code}.');
       }
       return false;
     } catch (e) {
@@ -57,17 +57,24 @@ class Auth {
     return false;
   }
 
-  static void logInByEmailPassword(String emailAddress, String password) async {
+  static Future<String?> logInByEmailPassword(
+      String emailAddress, String password) async {
     try {
-      await FirebaseAuth.instance
+      var result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
+
+      if (result.user != null) {
+        return 'success';
+      }
     } on FirebaseAuthException catch (e) {
+      print(e.message);
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        return 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        return 'Wrong password provided for that user.';
       }
     }
+    return "Sign In Failed";
   }
 
   static Future<void> logOut() async {

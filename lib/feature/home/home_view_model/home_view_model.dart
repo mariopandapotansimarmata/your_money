@@ -8,7 +8,7 @@ import '../../../models/transaction_model.dart';
 class HomeViewModel {
   final TransactionRepositry _transactionRepo = TransactionRepositry();
   final ChartRepository _chartRepo = ChartRepository();
-  Stream<User?> currentUserStream = Auth.StreamIsLoggedIn();
+  Stream<User?> currentUserStream = Auth.streamIsLoggedIn();
 
   Stream<List<TransactionModel>> streamAllTransaction() async* {
     yield* _transactionRepo.streamReadAll();

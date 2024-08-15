@@ -4,6 +4,7 @@ import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/models/transaction_model.dart';
 import 'package:your_money_flutter/repository/transaction_repositry.dart';
+import 'package:your_money_flutter/repository/utils/overlay_utils.dart';
 
 import '../../../repository/utils/model_utils.dart';
 
@@ -285,10 +286,11 @@ class _AddFormState extends State<AddForm> {
                             category: categoryController.text,
                             dateTime: DateTime.parse(dateTimeController.text),
                             notes: notesController.text));
-                        print(amountController.text);
-                        print(double.parse(
-                            amountController.text.replaceAll(RegExp(','), '')));
-                        Navigator.pop(context);
+
+                        OverlayUtils.showOverlay(context, "Saving transaction",
+                            action: () async {
+                          Navigator.pop(context);
+                        });
                       },
                       child: Text(
                         "Save",

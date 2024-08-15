@@ -6,6 +6,7 @@ import 'package:your_money_flutter/models/transaction_model.dart';
 import 'package:your_money_flutter/repository/transaction_repositry.dart';
 
 import '../../../repository/utils/model_utils.dart';
+import '../../../repository/utils/overlay_utils.dart';
 
 class EditForm extends StatefulWidget {
   const EditForm({super.key, required this.transaction});
@@ -241,7 +242,6 @@ class _EditFormState extends State<EditForm> {
                               ),
                             ],
                           ),
-                          Text("${widget.transaction.documentId}")
                         ],
                       ),
                       Column(
@@ -297,11 +297,10 @@ class _EditFormState extends State<EditForm> {
                             dateTime: DateTime.parse(dateTimeController.text),
                             notes: notesController.text));
 
-                        print(amountController.text);
-                        print(double.parse(
-                            amountController.text.replaceAll(RegExp(','), '')));
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
+                        OverlayUtils.showOverlay(context, "Saving transaction",
+                            action: () async {
+                          Navigator.pop(context);
+                        });
                       },
                       child: Text(
                         "Save",

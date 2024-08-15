@@ -46,6 +46,8 @@ dependencies:
   path_provider: ^2.1.4
   path: ^1.8.0
   firebase_auth: ^5.1.4
+  overlay_loading_progress: ^1.0.1
+  intl: ^0.17.0
 
 
 
