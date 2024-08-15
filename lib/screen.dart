@@ -4,6 +4,7 @@ import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/feature/chart/chart.dart';
 import 'package:your_money_flutter/feature/home/home.dart';
 
+import 'auth/firebaseauth.dart';
 import 'feature/form/add_form/add_form_view.dart';
 
 class Screen extends StatefulWidget {
@@ -51,6 +52,50 @@ class _ScreenState extends State<Screen> with SingleTickerProviderStateMixin {
     const Color unselectedColor = Colors.grey;
     return SafeArea(
       child: Scaffold(
+        endDrawer: Drawer(
+          width: MediaQuery.of(context).size.width * 0.5,
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration:
+                    BoxDecoration(color: MaterialProperties.primaryBlueColor),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Preferences',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: MaterialProperties.whiteTextColor),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(Icons.menu,
+                            color: MaterialProperties.whiteTextColor))
+                  ],
+                ),
+              ),
+              ListTile(
+                title: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text('Sign Out'), Icon(Icons.exit_to_app)],
+                ),
+                onTap: () {
+                  Auth.logOut();
+                },
+              ),
+            ],
+          ),
+        ),
         backgroundColor: MaterialProperties.backgroundColor,
         body: BottomBar(
           barDecoration: BoxDecoration(

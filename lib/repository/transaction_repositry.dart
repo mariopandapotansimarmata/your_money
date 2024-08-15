@@ -69,6 +69,24 @@ class TransactionRepositry {
     }
   }
 
+  Stream<TransactionModel> streamOneData(String docid) async* {
+    User? currentUser = await currentUserStream.first;
+
+    await for (var snapshot in db
+        .collection(usersField)
+        .doc(currentUser!.uid)
+        .collection(transactionsField)
+        .doc(docid)
+        .snapshots()) {
+      yield TransactionModel(
+          amount: snapshot["amount"],
+          category: snapshot["category"],
+          dateTime: (snapshot["dateTime"] as Timestamp).toDate(),
+          notes: snapshot["notes"],
+          documentId: docid);
+    }
+  }
+
   void update(TransactionModel transaction) async {
     User? currentUser = await currentUserStream.first;
 

@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
-import 'package:your_money_flutter/assets/profile_icon.dart';
-import 'package:your_money_flutter/auth/firebaseauth.dart';
 import 'package:your_money_flutter/feature/home/home_view_model/home_view_model.dart';
 import 'package:your_money_flutter/repository/utils/model_utils.dart';
 
@@ -47,7 +45,8 @@ class _ExpenseCardState extends State<ExpenseCard> {
             ),
             Positioned(
               top: 13,
-              right: 50 + (ratio - 0.25) / (0.25) * 35,
+              left: ratio > 0.4 ? (0 + ((1 / ratio) * 50)) : null,
+              right: ratio <= 0.4 ? (50 + (ratio - 0.25) / (0.25) * 35) : null,
               child: Text(
                 FirebaseAuth.instance.currentUser!.displayName!,
                 style: Theme.of(context)
@@ -57,15 +56,18 @@ class _ExpenseCardState extends State<ExpenseCard> {
               ),
             ),
             Positioned(
-                top: 2,
+                top: 10,
                 right: 0,
                 child: InkWell(
                     onTap: () {
-                      Auth.logOut();
+                      Scaffold.of(context).openEndDrawer();
                     },
-                    child: const ProfileIcon())),
-            // Text("$screenWidth"),
-
+                    child: Icon(
+                      Icons.menu,
+                      color: MaterialProperties.whiteTextColor,
+                      size: 30,
+                    ))),
+            // Text("$ratio"),
             Positioned(
               left: (ratio) * 25,
               top: ratio * (screenHeight * 0.12),

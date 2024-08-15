@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/ciruclar_icon.dart';
 import 'package:your_money_flutter/feature/form/edit_form/edit_form_view.dart';
 import 'package:your_money_flutter/feature/home/detail_views/details_widgets/detail_page_button.dart';
+import 'package:your_money_flutter/repository/transaction_repositry.dart';
 import 'package:your_money_flutter/repository/utils/model_utils.dart';
 
 import '../../../assets/material_properties.dart';
@@ -62,62 +63,70 @@ class _DetailTransactionState extends State<DetailTransaction> {
                 children: [
                   SizedBox(
                     height: screenHeight * 0.4,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TranscIcon(
-                          icon:
-                              ModelUtils.getIcon(widget.transaction.category!)!,
-                          color: MaterialProperties.primaryBlueColor,
-                          size: 70,
-                        ),
-                        Text(
-                          "Rp ${ModelUtils.decimalFormatter(widget.transaction.amount!)} ",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Text(ModelUtils.dateTimeFormatter(
-                            widget.transaction.dateTime!)),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Notes",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w300),
-                            ),
-                            TextField(
-                              controller: notesController,
-                              readOnly: true,
-                              keyboardType: TextInputType.multiline,
-                              maxLines: 4,
-                              decoration: InputDecoration(
-                                fillColor: MaterialProperties.whiteTextColor,
-                                filled: true,
-                                hintText: "Enter the notes",
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: MaterialProperties
-                                          .transactionBorderColor),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: MaterialProperties
-                                          .transactionBorderColor),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                    child: StreamBuilder(
+                        stream: TransactionRepositry()
+                            .streamOneData(widget.transaction.documentId!),
+                        builder: (context, snapshot) {
+                          notesController.text = snapshot.data!.notes!;
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TranscIcon(
+                                icon: ModelUtils.getIcon(
+                                    snapshot.data!.category!)!,
+                                color: MaterialProperties.primaryBlueColor,
+                                size: 70,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              Text(
+                                "Rp ${ModelUtils.decimalFormatter(snapshot.data!.amount!)} ",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              Text(ModelUtils.dateTimeFormatter(
+                                  snapshot.data!.dateTime!)),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Notes",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                  TextField(
+                                    controller: notesController,
+                                    readOnly: true,
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 4,
+                                    decoration: InputDecoration(
+                                      fillColor:
+                                          MaterialProperties.whiteTextColor,
+                                      filled: true,
+                                      hintText: "Enter the notes",
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1.5,
+                                            color: MaterialProperties
+                                                .transactionBorderColor),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1.5,
+                                            color: MaterialProperties
+                                                .transactionBorderColor),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }),
                   ),
                 ],
               ),

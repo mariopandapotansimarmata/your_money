@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/auth/firebaseauth.dart';
 import 'package:your_money_flutter/repository/utils/overlay_utils.dart';
 
@@ -20,6 +21,7 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
+  bool isVisible = true;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,17 +54,35 @@ class _SignInState extends State<SignIn> {
             child: TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Password"),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(top: 12),
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isVisible = !isVisible;
+                        });
+                      },
+                      child: isVisible
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
+                  ),
+                  border: InputBorder.none,
+                  hintText: "Password"),
             ),
           ),
         ),
         Container(
             margin: const EdgeInsets.symmetric(vertical: 25),
             constraints: const BoxConstraints(maxWidth: 500),
-            height: 40,
+            height: 50,
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MaterialProperties.primaryBlueColor,
+                ),
                 onPressed: () async {
                   OverlayUtils.showOverlay(context, "Signing In",
                       action: () async {
@@ -79,7 +99,13 @@ class _SignInState extends State<SignIn> {
                     }
                   });
                 },
-                child: const Text("Sign In"))),
+                child: Text(
+                  "Sign In",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: MaterialProperties.whiteTextColor),
+                ))),
       ],
     );
   }

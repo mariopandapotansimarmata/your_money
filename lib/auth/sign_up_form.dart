@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/auth/firebaseauth.dart';
 
+import '../assets/material_properties.dart';
 import '../repository/utils/overlay_utils.dart';
 
 class SignUp extends StatefulWidget {
@@ -15,7 +16,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController displayName = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-
+  bool isVisible = false;
   @override
   void dispose() {
     emailController.dispose();
@@ -69,12 +70,27 @@ class _SignUpState extends State<SignUp> {
               border: Border.all(color: Colors.white),
               borderRadius: BorderRadius.circular(15)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 18.0),
+            padding: EdgeInsets.only(left: 18.0),
             child: TextField(
               controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Password"),
+              obscureText: isVisible,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(top: 12),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isVisible = !isVisible;
+                        });
+                      },
+                      child: isVisible
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
+                  ),
+                  border: InputBorder.none,
+                  hintText: "Password"),
             ),
           ),
         ),
@@ -88,9 +104,24 @@ class _SignUpState extends State<SignUp> {
             padding: const EdgeInsets.only(left: 18.0),
             child: TextField(
               controller: confirmPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  border: InputBorder.none, hintText: "Confirm Password"),
+              obscureText: isVisible,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(top: 12),
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isVisible = !isVisible;
+                        });
+                      },
+                      child: isVisible
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
+                  ),
+                  border: InputBorder.none,
+                  hintText: "Confirm Password"),
             ),
           ),
         ),
@@ -99,9 +130,12 @@ class _SignUpState extends State<SignUp> {
         Container(
             margin: const EdgeInsets.symmetric(vertical: 25),
             constraints: const BoxConstraints(maxWidth: 500),
-            height: 40,
+            height: 50,
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MaterialProperties.primaryBlueColor,
+                ),
                 onPressed: () async {
                   if (passwordController.text ==
                       confirmPasswordController.text) {
@@ -121,7 +155,13 @@ class _SignUpState extends State<SignUp> {
                     });
                   }
                 },
-                child: const Text("Sign Up"))),
+                child: Text(
+                  "Sign Up",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: MaterialProperties.whiteTextColor),
+                ))),
       ],
     );
   }
