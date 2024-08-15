@@ -12,7 +12,12 @@
           "package_name": "com.example.your_money_flutter"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "814128476971-rsr79pq34bmfcojp3ssiu0vl2sd6km7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCNNm-tExg10uH40w3C1QBv6YtIPjIMrBI"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814128476971-rsr79pq34bmfcojp3ssiu0vl2sd6km7o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "814128476971-slojdt4u46dmlimafh9jutpfjnf96smp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.yourMoneyFlutter"
+              }
+            }
+          ]
         }
       }
     }

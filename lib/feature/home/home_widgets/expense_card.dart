@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/assets/profile_icon.dart';
+import 'package:your_money_flutter/auth/firebaseauth.dart';
 import 'package:your_money_flutter/feature/home/home_view_model/home_view_model.dart';
 import 'package:your_money_flutter/repository/utils/model_utils.dart';
 
@@ -47,14 +49,21 @@ class _ExpenseCardState extends State<ExpenseCard> {
               top: 13,
               right: 50 + (ratio - 0.25) / (0.25) * 35,
               child: Text(
-                "Mario Pandapotan S",
+                FirebaseAuth.instance.currentUser!.displayName!,
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
                     .copyWith(color: MaterialProperties.whiteTextColor),
               ),
             ),
-            const Positioned(top: 2, right: 0, child: ProfileIcon()),
+            Positioned(
+                top: 2,
+                right: 0,
+                child: InkWell(
+                    onTap: () {
+                      Auth.logOut();
+                    },
+                    child: const ProfileIcon())),
             // Text("$screenWidth"),
 
             Positioned(

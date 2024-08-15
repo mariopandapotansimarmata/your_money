@@ -1,15 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../auth/firebaseauth.dart';
 import '../feature/chart/chart.dart';
 import '../firebase/firestore.dart';
 
 class ChartRepository {
   FirebaseFirestore db = Firebase().database;
   String transactionField = "transactions";
+  String usersField = "users";
+  Stream<User?> currentUserStream = Auth.StreamIsLoggedIn();
+  User? currentUid = Auth.isLoggedIn();
 
   Stream<double> readTotalExpense() async* {
-    await for (var snapshot in db.collection(transactionField).snapshots()) {
+    await for (var snapshot in db
+        .collection(usersField)
+        .doc(currentUid!.uid)
+        .collection(transactionField)
+        .snapshots()) {
       double result = 0;
       for (var doc in snapshot.docs) {
         result += doc.data()["amount"];
@@ -21,6 +30,8 @@ class ChartRepository {
 
   Stream<DateTime> readLastTransaction() async* {
     await for (var snapshot in db
+        .collection(usersField)
+        .doc(currentUid!.uid)
         .collection(transactionField)
         .orderBy("dateTime", descending: true)
         .limit(1)
@@ -33,6 +44,8 @@ class ChartRepository {
 
   Stream<List<ChartData>> readChartPercentage(int days) async* {
     await for (var snapshot in db
+        .collection(usersField)
+        .doc(currentUid!.uid)
         .collection(transactionField)
         .where("dateTime",
             isGreaterThan: DateTime.now().subtract(Duration(days: days)))
@@ -42,6 +55,7 @@ class ChartRepository {
       double care = 0;
       double entertainment = 0;
       double others = 0;
+
       for (var doc in snapshot.docs) {
         if (doc.data()["category"] == "Food") {
           food += doc.data()["amount"];
@@ -55,6 +69,7 @@ class ChartRepository {
           others += doc.data()["amount"];
         }
       }
+
       List<ChartData> chartData = [
         ChartData('Food', food, Colors.blue[300]!),
         ChartData('Transportation', transportation, Colors.red[400]!),
