@@ -17,12 +17,6 @@ This project leverages Firebase Firestore for its database and Firebase Authenti
 
 ## UI
 
-<img src="READMEUIScreenshot/Sign In Page.png" width=180>
-<img src="READMEUIScreenshot/Sign Up Page.png" width=180>
-<img src="READMEUIScreenshot/Home Page 1.png" width=180>
-<img src="READMEUIScreenshot/Home Page 2.png" width=180>
-<img src="READMEUIScreenshot/Home Page 3.png" width=180>
-<img src="READMEUIScreenshot/Transaction Detail.png" width=180>
-<img src="READMEUIScreenshot/Edit Form.png" width=180>
-<img src="READMEUIScreenshot/Add Form.png" width=180>
-<img src="READMEUIScreenshot/Chart Page.png" width=180>
+<img src="READMEUIScreenshot/Sign In Page.png" width=180> <img src="READMEUIScreenshot/Sign Up Page.png" width=180> <img src="READMEUIScreenshot/Home Page 1.png" width=180>
+<img src="READMEUIScreenshot/Home Page 2.png" width=180> <img src="READMEUIScreenshot/Home Page 3.png" width=180> <img src="READMEUIScreenshot/Transaction Detail.png" width=180>
+<img src="READMEUIScreenshot/Edit Form.png" width=180> <img src="READMEUIScreenshot/Add Form.png" width=180> <img src="READMEUIScreenshot/Chart Page.png" width=180>
