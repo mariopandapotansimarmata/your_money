@@ -68,65 +68,74 @@ class _DetailTransactionState extends State<DetailTransaction> {
                         stream: _detailTransactionVM.streamDetailTransaction(
                             widget.transaction.documentId!),
                         builder: (context, snapshot) {
-                          notesController.text = snapshot.data!.notes!;
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TranscIcon(
-                                icon: ModelUtils.getIcon(
-                                    snapshot.data!.category!)!,
-                                color: MaterialProperties.primaryBlueColor,
-                                size: 70,
-                              ),
-                              Text(
-                                "Rp ${ModelUtils.decimalFormatter(snapshot.data!.amount!)} ",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              Text(ModelUtils.dateTimeFormatter(
-                                  snapshot.data!.dateTime!)),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Notes",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                  TextField(
-                                    controller: notesController,
-                                    readOnly: true,
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 4,
-                                    decoration: InputDecoration(
-                                      fillColor:
-                                          MaterialProperties.whiteTextColor,
-                                      filled: true,
-                                      hintText: "Enter the notes",
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 1.5,
-                                            color: MaterialProperties
-                                                .transactionBorderColor),
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 1.5,
-                                            color: MaterialProperties
-                                                .transactionBorderColor),
-                                        borderRadius: BorderRadius.circular(16),
+                          if (snapshot.data == null) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            notesController.text = snapshot.data!.notes!;
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TranscIcon(
+                                  icon: ModelUtils.getIcon(
+                                      snapshot.data!.category!)!,
+                                  color: MaterialProperties.primaryBlueColor,
+                                  size: 70,
+                                ),
+                                Text(
+                                  "Rp ${ModelUtils.decimalFormatter(snapshot.data!.amount!)} ",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(ModelUtils.dateTimeFormatter(
+                                    snapshot.data!.dateTime!)),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Notes",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    TextField(
+                                      controller: notesController,
+                                      readOnly: true,
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 4,
+                                      decoration: InputDecoration(
+                                        fillColor:
+                                            MaterialProperties.whiteTextColor,
+                                        filled: true,
+                                        hintText: "Enter the notes",
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 1.5,
+                                              color: MaterialProperties
+                                                  .transactionBorderColor),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 1.5,
+                                              color: MaterialProperties
+                                                  .transactionBorderColor),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
+                                  ],
+                                ),
+                              ],
+                            );
+                          }
                         }),
                   ),
                 ],
