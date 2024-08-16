@@ -6,7 +6,7 @@ Your Money is a user-friendly money tracking application built with Flutter, des
 
 This project leverages Firebase Firestore for its database and Firebase Authentication for user authentication.
 > [!NOTE]
-> This project is currently can be run on android platform and web platform
+> This project is currently can be run only on android platform and web platform
 
 ## Features
 
@@ -15,3 +15,14 @@ This project leverages Firebase Firestore for its database and Firebase Authenti
 * Transaction Chart
 * Export to Excel (.xls format)
 
+## UI
+
+<img src="READMEUIScreenshot/Sign In Page.png" width=180>
+<img src="READMEUIScreenshot/Sign Up Page.png" width=180>
+<img src="READMEUIScreenshot/Home Page 1.png" width=180>
+<img src="READMEUIScreenshot/Home Page 2.png" width=180>
+<img src="READMEUIScreenshot/Home Page 3.png" width=180>
+<img src="READMEUIScreenshot/Transaction Detail.png" width=180>
+<img src="READMEUIScreenshot/Edit Form.png" width=180>
+<img src="READMEUIScreenshot/Add Form.png" width=180>
+<img src="READMEUIScreenshot/Chart Page.png" width=180>
