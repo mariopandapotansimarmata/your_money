@@ -14,6 +14,7 @@ This project leverages Firebase Firestore for its database and Firebase Authenti
 * Transaction Detail
 * Transaction Chart
 * Export to Excel (.xls format)
+  > Excel file can be found in (Web) /Downloads or (Android) /storage/emulated/0/Android/data/com.example.your_money_flutter/files/downloads/Transaction
 
 ## UI
 
