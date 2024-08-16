@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/feature/home/home_view_model/home_view_model.dart';
+import 'package:your_money_flutter/feature/home/home_view_model.dart';
 import 'package:your_money_flutter/feature/home/home_widgets/expense_card.dart';
 import '../../assets/material_properties.dart';
 import 'home_widgets/transaction_card.dart';

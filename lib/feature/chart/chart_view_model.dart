@@ -4,7 +4,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:your_money_flutter/feature/chart/chart.dart';
 import 'package:your_money_flutter/repository/transaction_repositry.dart';
-import 'package:your_money_flutter/repository/utils/model_utils.dart';
+import 'package:your_money_flutter/utils/model_utils.dart';
 import '../../repository/chart_repository.dart';
 import 'package:excel/excel.dart';
 
@@ -17,14 +17,13 @@ class ChartViewModel {
   }
 
   void createExcel() async {
+    Excel excel = Excel.createExcel();
+    excel.rename('Sheet1', 'Transactions');
     DateTime now = DateTime.now();
     String dateNow =
         "${now.day}-${now.month}-${now.year} ${now.hour}:${now.minute}";
 
-    var excel = Excel.createExcel();
-    excel.rename('Sheet1', 'Transactions');
     Sheet sheetObject = excel['Transactions'];
-
     List<CellValue> dataList = [
       const TextCellValue('DateTime'),
       const TextCellValue('Category'),

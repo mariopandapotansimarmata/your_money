@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
-import 'package:your_money_flutter/auth/firebaseauth.dart';
-import 'package:your_money_flutter/repository/utils/overlay_utils.dart';
+import 'package:your_money_flutter/feature/auth/auth_view_model/auth_view_model.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -11,8 +10,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController emailController = TextEditingController(text: "");
-  TextEditingController passwordController = TextEditingController(text: "");
+  final AuthViewModel _authViewModel = AuthViewModel();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool isVisible = true;
 
   @override
   void dispose() {
@@ -21,7 +22,6 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
-  bool isVisible = true;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,11 +53,11 @@ class _SignInState extends State<SignIn> {
             padding: const EdgeInsets.only(left: 18.0),
             child: TextField(
               controller: passwordController,
-              obscureText: true,
+              obscureText: isVisible,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(top: 12),
+                  contentPadding: const EdgeInsets.only(top: 12),
                   suffixIcon: Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -65,8 +65,8 @@ class _SignInState extends State<SignIn> {
                         });
                       },
                       child: isVisible
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
                     ),
                   ),
                   border: InputBorder.none,
@@ -84,20 +84,8 @@ class _SignInState extends State<SignIn> {
                   backgroundColor: MaterialProperties.primaryBlueColor,
                 ),
                 onPressed: () async {
-                  OverlayUtils.showOverlay(context, "Signing In",
-                      action: () async {
-                    String? result = await Auth.logInByEmailPassword(
-                        emailController.text, passwordController.text);
-                    print(result);
-                    if (result != "success") {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(result!),
-                        ),
-                      );
-                    }
-                  });
+                  _authViewModel.signIn(
+                      context, emailController, passwordController);
                 },
                 child: Text(
                   "Sign In",

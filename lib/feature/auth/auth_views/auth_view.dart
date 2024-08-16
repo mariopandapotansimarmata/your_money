@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/auth/sign_up_form.dart';
-import 'package:your_money_flutter/auth/sign_in_form.dart';
+import 'package:your_money_flutter/feature/auth/auth_views/sign_up_form.dart';
+import 'package:your_money_flutter/feature/auth/auth_views/sign_in_form.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({super.key});

@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:your_money_flutter/auth/auth_view.dart';
-import 'auth/firebaseauth.dart';
+import 'package:your_money_flutter/feature/auth/auth_views/auth_view.dart';
+import 'repository/auth_repository.dart';
 import 'firebase/firebase_options.dart';
 import 'screen.dart';
 
@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
                 cardColor: MaterialProperties.whiteTextColor)),
         title: 'Flutter Demo',
         home: StreamBuilder(
-            stream: Auth.streamIsLoggedIn(),
+            stream: AuthRepository.streamIsLoggedIn(),
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return const Screen();

@@ -1,16 +1,17 @@
-# your_money_flutter
+# Your Money 
 
-A new Flutter project.
+Your Money is a user-friendly money tracking application built with Flutter, designed to help users monitor their expenses on a weekly, monthly, and overall basis.
 
-## Getting Started
+## Description
 
-This project is a starting point for a Flutter application.
+This project leverages Firebase Firestore for its database and Firebase Authentication for user authentication.
+> [!NOTE]
+> This project is currently can be run on android platform and web platform
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* Transaction CRUD (Create, Update, Delete)
+* Transaction Detail
+* Transaction Chart
+* Export to Excel (.xls format)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

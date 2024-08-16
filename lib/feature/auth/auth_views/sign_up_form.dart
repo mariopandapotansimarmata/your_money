@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:your_money_flutter/auth/firebaseauth.dart';
+import 'package:your_money_flutter/feature/auth/auth_view_model/auth_view_model.dart';
 
-import '../assets/material_properties.dart';
-import '../repository/utils/overlay_utils.dart';
+import '../../../assets/material_properties.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -12,6 +11,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final AuthViewModel _authViewModel = AuthViewModel();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController displayName = TextEditingController();
@@ -70,12 +70,12 @@ class _SignUpState extends State<SignUp> {
               border: Border.all(color: Colors.white),
               borderRadius: BorderRadius.circular(15)),
           child: Padding(
-            padding: EdgeInsets.only(left: 18.0),
+            padding: const EdgeInsets.only(left: 18.0),
             child: TextField(
               controller: passwordController,
               obscureText: isVisible,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(top: 12),
+                  contentPadding: const EdgeInsets.only(top: 12),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: InkWell(
@@ -85,8 +85,8 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       child: isVisible
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
                     ),
                   ),
                   border: InputBorder.none,
@@ -106,9 +106,9 @@ class _SignUpState extends State<SignUp> {
               controller: confirmPasswordController,
               obscureText: isVisible,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(top: 12),
+                  contentPadding: const EdgeInsets.only(top: 12),
                   suffixIcon: Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.only(right: 10),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -116,8 +116,8 @@ class _SignUpState extends State<SignUp> {
                         });
                       },
                       child: isVisible
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off),
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
                     ),
                   ),
                   border: InputBorder.none,
@@ -137,23 +137,12 @@ class _SignUpState extends State<SignUp> {
                   backgroundColor: MaterialProperties.primaryBlueColor,
                 ),
                 onPressed: () async {
-                  if (passwordController.text ==
-                      confirmPasswordController.text) {
-                    OverlayUtils.showOverlay(context, "Signin Up",
-                        action: () async {
-                      bool success = await Auth.createUser(emailController.text,
-                          passwordController.text, displayName.text);
-                      if (!success) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(
-                                "Failed to create user, email might be used"),
-                          ),
-                        );
-                      }
-                    });
-                  }
+                  _authViewModel.signUp(
+                      context,
+                      emailController,
+                      passwordController,
+                      displayName,
+                      confirmPasswordController);
                 },
                 child: Text(
                   "Sign Up",

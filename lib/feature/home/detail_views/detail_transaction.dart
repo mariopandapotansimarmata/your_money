@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/ciruclar_icon.dart';
-import 'package:your_money_flutter/feature/form/edit_form/edit_form_view.dart';
+import 'package:your_money_flutter/feature/form/form_views/edit_form_view.dart';
+import 'package:your_money_flutter/feature/home/detail_views/detail_transaction_view_model.dart';
 import 'package:your_money_flutter/feature/home/detail_views/details_widgets/detail_page_button.dart';
-import 'package:your_money_flutter/repository/transaction_repositry.dart';
-import 'package:your_money_flutter/repository/utils/model_utils.dart';
+import 'package:your_money_flutter/utils/model_utils.dart';
 
 import '../../../assets/material_properties.dart';
 import '../../../models/transaction_model.dart';
@@ -21,6 +21,8 @@ class DetailTransaction extends StatefulWidget {
 }
 
 class _DetailTransactionState extends State<DetailTransaction> {
+  final DetailTransactionViewModel _detailTransactionVM =
+      DetailTransactionViewModel();
   TextEditingController notesController = TextEditingController();
 
   @override
@@ -47,7 +49,6 @@ class _DetailTransactionState extends State<DetailTransaction> {
           "${widget.transaction.category}",
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
-        // actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
       ),
       body: Container(
         height: screenHeight * 0.94,
@@ -64,8 +65,8 @@ class _DetailTransactionState extends State<DetailTransaction> {
                   SizedBox(
                     height: screenHeight * 0.4,
                     child: StreamBuilder(
-                        stream: TransactionRepositry()
-                            .streamOneData(widget.transaction.documentId!),
+                        stream: _detailTransactionVM.streamDetailTransaction(
+                            widget.transaction.documentId!),
                         builder: (context, snapshot) {
                           notesController.text = snapshot.data!.notes!;
                           return Column(

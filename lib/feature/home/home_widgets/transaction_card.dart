@@ -3,7 +3,7 @@ import 'package:your_money_flutter/assets/ciruclar_icon.dart';
 import 'package:your_money_flutter/feature/home/detail_views/detail_transaction.dart';
 import 'package:your_money_flutter/models/transaction_model.dart';
 import 'package:intl/intl.dart';
-import 'package:your_money_flutter/repository/utils/model_utils.dart';
+import 'package:your_money_flutter/utils/model_utils.dart';
 import '../../../assets/material_properties.dart';
 
 class TransactionCard extends StatefulWidget {

@@ -2,11 +2,9 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
-import 'package:your_money_flutter/models/transaction_model.dart';
-import 'package:your_money_flutter/repository/transaction_repositry.dart';
-import 'package:your_money_flutter/repository/utils/overlay_utils.dart';
+import 'package:your_money_flutter/feature/form/form_view_model.dart';
 
-import '../../../repository/utils/model_utils.dart';
+import '../../../utils/model_utils.dart';
 
 class AddForm extends StatefulWidget {
   const AddForm({super.key});
@@ -16,15 +14,7 @@ class AddForm extends StatefulWidget {
 }
 
 class _AddFormState extends State<AddForm> {
-  final TransactionRepositry vm = TransactionRepositry();
-
-  List<String> catergoryList = [
-    "Food",
-    "Transportation",
-    "Care",
-    "Entertainment",
-    "Others"
-  ];
+  final FormViewModel _formViewModel = FormViewModel();
 
   TextEditingController amountController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
@@ -42,7 +32,7 @@ class _AddFormState extends State<AddForm> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = catergoryList.first;
+    String dropdownValue = _formViewModel.catergoryList.first;
     dateTimeController.text = DateTime.now().toString();
     return Scaffold(
         backgroundColor: MaterialProperties.backgroundColor,
@@ -121,59 +111,54 @@ class _AddFormState extends State<AddForm> {
                       Column(
                         children: [
                           const HeaderForm(headerName: "Category"),
-                          Container(
-                            child: DropdownButtonFormField(
-                              // itemHeight: 100,
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                filled: true,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1.5,
-                                      color: MaterialProperties
-                                          .transactionBorderColor),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1.5,
-                                      color:
-                                          MaterialProperties.primaryBlueColor),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                fillColor: MaterialProperties.whiteTextColor,
+                          DropdownButtonFormField(
+                            // itemHeight: 100,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.5,
+                                    color: MaterialProperties
+                                        .transactionBorderColor),
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                              style: Theme.of(context).textTheme.bodyLarge!,
-                              isExpanded: true,
-                              value: dropdownValue,
-                              items: catergoryList
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Container(
-                                    // height: 50,
-                                    alignment: Alignment.center,
-                                    color: MaterialProperties.whiteTextColor,
-                                    child: Row(
-                                      children: [
-                                        Icon(ModelUtils
-                                            .catergoryIconList[value]!),
-                                        const SizedBox(width: 15),
-                                        Text(value),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  categoryController.text = value!;
-                                  print(categoryController.text);
-                                });
-                              },
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.5,
+                                    color: MaterialProperties.primaryBlueColor),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              fillColor: MaterialProperties.whiteTextColor,
                             ),
+                            style: Theme.of(context).textTheme.bodyLarge!,
+                            isExpanded: true,
+                            value: dropdownValue,
+                            items: _formViewModel.catergoryList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Container(
+                                  // height: 50,
+                                  alignment: Alignment.center,
+                                  color: MaterialProperties.whiteTextColor,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                          ModelUtils.catergoryIconList[value]!),
+                                      const SizedBox(width: 15),
+                                      Text(value),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                categoryController.text = value!;
+                              });
+                            },
                           )
                         ],
                       ),
@@ -223,7 +208,6 @@ class _AddFormState extends State<AddForm> {
                                     dateTimeController.text = val;
                                   },
                                   validator: (val) {
-                                    print(val);
                                     return null;
                                   },
                                   onSaved: (val) {
@@ -274,23 +258,12 @@ class _AddFormState extends State<AddForm> {
                         minimumSize: const Size.fromHeight(50),
                       ),
                       onPressed: () {
-                        if (amountController.text == "") {
-                          amountController.text = "0";
-                        }
-                        if (categoryController.text == "") {
-                          categoryController.text = "Food";
-                        }
-                        vm.add(TransactionModel(
-                            amount: double.parse(amountController.text
-                                .replaceAll(RegExp(','), '')),
-                            category: categoryController.text,
-                            dateTime: DateTime.parse(dateTimeController.text),
-                            notes: notesController.text));
-
-                        OverlayUtils.showOverlay(context, "Saving transaction",
-                            action: () async {
-                          Navigator.pop(context);
-                        });
+                        _formViewModel.addTransaction(
+                            context,
+                            amountController,
+                            categoryController,
+                            dateTimeController,
+                            notesController);
                       },
                       child: Text(
                         "Save",

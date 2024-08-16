@@ -4,8 +4,8 @@ import 'package:your_money_flutter/assets/material_properties.dart';
 import 'package:your_money_flutter/feature/chart/chart.dart';
 import 'package:your_money_flutter/feature/home/home.dart';
 
-import 'auth/firebaseauth.dart';
-import 'feature/form/add_form/add_form_view.dart';
+import 'feature/form/form_views/add_form_view.dart';
+import 'repository/auth_repository.dart';
 
 class Screen extends StatefulWidget {
   const Screen({
@@ -90,7 +90,7 @@ class _ScreenState extends State<Screen> with SingleTickerProviderStateMixin {
                   children: [Text('Sign Out'), Icon(Icons.exit_to_app)],
                 ),
                 onTap: () {
-                  Auth.logOut();
+                  AuthRepository.logOut();
                 },
               ),
             ],

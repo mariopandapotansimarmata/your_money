@@ -3,21 +3,20 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Auth {
+class AuthRepository {
   static const String _usersPath = "users";
 
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   static Stream<User?> streamIsLoggedIn() {
-    print("object");
     return FirebaseAuth.instance.userChanges();
   }
 
   static User? isLoggedIn() {
-    print("object");
     return FirebaseAuth.instance.currentUser;
   }
 
-  static Future<bool> createUser(
+  Future<bool> createUser(
       String emailAddress, String password, String displayName) async {
     try {
       final credential =
@@ -57,7 +56,7 @@ class Auth {
     return false;
   }
 
-  static Future<String?> logInByEmailPassword(
+  Future<String?> logInByEmailPassword(
       String emailAddress, String password) async {
     try {
       var result = await FirebaseAuth.instance

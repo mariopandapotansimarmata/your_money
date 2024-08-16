@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:your_money_flutter/auth/firebaseauth.dart';
+import 'package:your_money_flutter/repository/auth_repository.dart';
 import 'package:your_money_flutter/models/transaction_model.dart';
 
 class TransactionRepositry {
+  Stream<User?> currentUserStream = AuthRepository.streamIsLoggedIn();
   String transactionsField = "transactions";
   String usersField = "users";
   FirebaseFirestore db = FirebaseFirestore.instance;
-  Stream<User?> currentUserStream = Auth.streamIsLoggedIn();
 
   Future<void> add(TransactionModel transaction) async {
     User? currentUser = await currentUserStream.first;

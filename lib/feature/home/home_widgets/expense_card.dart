@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:your_money_flutter/assets/material_properties.dart';
-import 'package:your_money_flutter/feature/home/home_view_model/home_view_model.dart';
-import 'package:your_money_flutter/repository/utils/model_utils.dart';
+import 'package:your_money_flutter/feature/home/home_view_model.dart';
+import 'package:your_money_flutter/utils/model_utils.dart';
 
 class ExpenseCard extends StatefulWidget {
   const ExpenseCard({super.key, required this.parentScrollerHeight});
@@ -47,13 +46,20 @@ class _ExpenseCardState extends State<ExpenseCard> {
               top: 13,
               left: ratio > 0.4 ? (0 + ((1 / ratio) * 50)) : null,
               right: ratio <= 0.4 ? (50 + (ratio - 0.25) / (0.25) * 35) : null,
-              child: Text(
-                FirebaseAuth.instance.currentUser!.displayName!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: MaterialProperties.whiteTextColor),
-              ),
+              child: StreamBuilder(
+                  stream: _homeViewModel.streamDisplayName(),
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data == null ||
+                              snapshot.data!.displayName == null
+                          ? "Loading data"
+                          : snapshot.data!.displayName!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: MaterialProperties.whiteTextColor),
+                    );
+                  }),
             ),
             Positioned(
                 top: 10,
@@ -117,16 +123,15 @@ class _ExpenseCardState extends State<ExpenseCard> {
             StreamBuilder(
                 stream: _homeViewModel.streamLastTransaction(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const CircularProgressIndicator();
-                  }
                   return Positioned(
                     left: (ratio - 0.25) / (0.25) * 39,
                     top: 7 + (20 + (ratio - 0.25) / (0.25) * 90),
                     child: Column(
                       children: [
                         Text(
-                          "${ModelUtils.dateTimeFormatter(snapshot.data!)}",
+                          snapshot.hasData
+                              ? "${ModelUtils.dateTimeFormatter(snapshot.data!)}"
+                              : "No Transaction",
                           style: TextStyle(
                               color: MaterialProperties.whiteTextColor),
                         ),

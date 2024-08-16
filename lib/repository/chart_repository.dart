@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../auth/firebaseauth.dart';
+import 'auth_repository.dart';
 import '../feature/chart/chart.dart';
 import '../firebase/firestore.dart';
 
@@ -10,8 +10,8 @@ class ChartRepository {
   FirebaseFirestore db = Firebase().database;
   String transactionField = "transactions";
   String usersField = "users";
-  Stream<User?> currentUserStream = Auth.streamIsLoggedIn();
-  User? currentUid = Auth.isLoggedIn();
+  Stream<User?> currentUserStream = AuthRepository.streamIsLoggedIn();
+  User? currentUid = AuthRepository.isLoggedIn();
 
   Stream<double> readTotalExpense() async* {
     await for (var snapshot in db

@@ -185,7 +185,7 @@ class _ChartPageState extends State<ChartPage> {
                             ]);
                       }),
                 ),
-                Container(
+                SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
